@@ -31,7 +31,6 @@
 
     .screen.active { display: flex; }
 
-    /* タイトル画面 */
     .title-emoji { font-size: 80px; margin-bottom: 20px; }
     .title-text  { font-size: 32px; font-weight: bold; color: #f9ca24; margin-bottom: 10px; }
     .title-sub   { font-size: 15px; color: rgba(255,255,255,0.7); margin-bottom: 40px; line-height: 1.6; }
@@ -49,7 +48,6 @@
     .btn-primary { background: #f9ca24; color: #1a1a2e; }
     .btn-primary:active { opacity: 0.8; }
 
-    /* テスト共通 */
     .test-title {
       font-size: 14px;
       color: rgba(255,255,255,0.6);
@@ -60,15 +58,15 @@
     .test-step {
       font-size: 13px;
       color: #f9ca24;
-      margin-bottom: 30px;
+      margin-bottom: 16px;
     }
 
     .progress-bar {
-      width: 200px;
+      width: 280px;
       height: 6px;
       background: rgba(255,255,255,0.2);
       border-radius: 3px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       overflow: hidden;
     }
 
@@ -76,14 +74,13 @@
       height: 100%;
       background: #f9ca24;
       border-radius: 3px;
-      transition: width 0.3s;
+      transition: width 0.4s ease;
     }
 
-    /* 計算テスト */
     .calc-question {
       font-size: 48px;
       font-weight: bold;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       color: #f9ca24;
     }
 
@@ -108,7 +105,6 @@
 
     .calc-btn:active { background: rgba(255,255,255,0.3); }
 
-    /* 反応速度テスト */
     .reaction-area {
       width: 220px;
       height: 220px;
@@ -122,7 +118,6 @@
       color: rgba(255,255,255,0.6);
       cursor: pointer;
       margin: 20px 0;
-      transition: background 0.1s;
     }
 
     .reaction-area.ready {
@@ -148,7 +143,6 @@
       margin: 10px 0;
     }
 
-    /* バランステスト */
     .balance-display {
       width: 220px;
       height: 220px;
@@ -195,25 +189,26 @@
       margin-top: 10px;
     }
 
-    /* 結果画面 */
     .result-char { font-size: 100px; margin-bottom: 10px; }
     .result-level {
       font-size: 28px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
       color: #f9ca24;
     }
     .result-desc {
       font-size: 15px;
       color: rgba(255,255,255,0.8);
       line-height: 1.7;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       max-width: 280px;
+      white-space: pre-line;
     }
     .result-score {
       font-size: 13px;
       color: rgba(255,255,255,0.5);
       margin-bottom: 24px;
+      line-height: 1.8;
     }
 
     .result-meter {
@@ -222,13 +217,14 @@
       background: rgba(255,255,255,0.15);
       border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .result-meter-fill {
       height: 100%;
       border-radius: 10px;
       transition: width 1s ease-out;
+      width: 0%;
     }
   </style>
 </head>
@@ -244,31 +240,36 @@
 
   <!-- 計算テスト -->
   <div class="screen" id="screen-calc">
-    <div class="test-title">TEST 1 / 3</div>
-    <div class="test-step">🧮 計算テスト</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div>
-    <div class="calc-question" id="calcQuestion">12 + 7 = ?</div>
+    <div class="test-title">TEST 1 / 3　計算テスト🧮</div>
+    <div class="test-step" id="calcStep">問題 1 / 5</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="calcProgress" style="width:0%"></div>
+    </div>
+    <div class="calc-question" id="calcQuestion"></div>
     <div id="calcFeedback" style="font-size:20px; height:30px; margin-bottom:10px;"></div>
     <div class="calc-options" id="calcOptions"></div>
   </div>
 
   <!-- 反応速度テスト -->
   <div class="screen" id="screen-reaction">
-    <div class="test-title">TEST 2 / 3</div>
-    <div class="test-step">⚡ 反応速度テスト</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:66%"></div></div>
+    <div class="test-title">TEST 2 / 3　反応速度テスト⚡</div>
+    <div class="test-step" id="reactionStep">1回目 / 3回</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="reactionProgress" style="width:0%"></div>
+    </div>
     <div style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom:10px;">緑になったらすぐタップ！</div>
-    <div class="reaction-area" id="reactionArea" onclick="reactionTap()">待機中...</div>
+    <div class="reaction-area" id="reactionArea" onclick="reactionTap()">タップしてスタート</div>
     <div class="reaction-time" id="reactionTime"></div>
     <div id="reactionStatus" style="font-size:14px; color:rgba(255,255,255,0.6);"></div>
   </div>
 
   <!-- バランステスト -->
   <div class="screen" id="screen-balance">
-    <div class="test-title">TEST 3 / 3</div>
-    <div class="test-step">⚖️ バランステスト</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
-    <div style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom:6px;">スマホを水平に保ってください</div>
+    <div class="test-title">TEST 3 / 3　バランステスト⚖️</div>
+    <div class="test-step">スマホを水平に保ってください</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="balanceProgress" style="width:0%"></div>
+    </div>
     <div class="balance-display" id="balanceDisplay">
       <div class="balance-center"></div>
       <div class="balance-ball" id="balanceBall"></div>
@@ -283,7 +284,7 @@
     <div class="result-char" id="resultChar">😊</div>
     <div class="result-level" id="resultLevel">ほろ酔い</div>
     <div class="result-meter">
-      <div class="result-meter-fill" id="resultMeterFill" style="width:0%"></div>
+      <div class="result-meter-fill" id="resultMeterFill"></div>
     </div>
     <div class="result-desc" id="resultDesc"></div>
     <div class="result-score" id="resultScore"></div>
@@ -291,10 +292,8 @@
   </div>
 
   <script>
-    // スコア管理
     let scores = { calc: 0, reaction: 0, balance: 0 };
 
-    // ===== タイトル =====
     function startTest() {
       showScreen('screen-calc');
       setupCalc();
@@ -314,31 +313,41 @@
     function setupCalc() {
       calcCorrect = 0;
       calcCurrent = 0;
+      updateCalcProgress();
       nextCalc();
+    }
+
+    function updateCalcProgress() {
+      const pct = (calcCurrent / calcTotal) * 100;
+      document.getElementById('calcProgress').style.width = pct + '%';
+      document.getElementById('calcStep').textContent =
+        `問題 ${Math.min(calcCurrent + 1, calcTotal)} / ${calcTotal}`;
     }
 
     function nextCalc() {
       if (calcCurrent >= calcTotal) {
         scores.calc = calcCorrect / calcTotal;
-        showScreen('screen-reaction');
-        setupReaction();
+        setTimeout(() => {
+          showScreen('screen-reaction');
+          setupReaction();
+        }, 400);
         return;
       }
 
-      const a = Math.floor(Math.random() * 20) + 1;
-      const b = Math.floor(Math.random() * 20) + 1;
-      const ops = ['+', '-'];
-      const op  = ops[Math.floor(Math.random() * ops.length)];
+      updateCalcProgress();
+
+      const a  = Math.floor(Math.random() * 20) + 1;
+      const b  = Math.floor(Math.random() * 20) + 1;
+      const op = Math.random() > 0.5 ? '+' : '-';
       calcAnswer = op === '+' ? a + b : a - b;
 
-      document.getElementById('calcQuestion').textContent =
-        `${a} ${op} ${b} = ?`;
+      document.getElementById('calcQuestion').textContent = `${a} ${op} ${b} = ?`;
       document.getElementById('calcFeedback').textContent = '';
 
-      // 選択肢生成
       const options = new Set([calcAnswer]);
       while (options.size < 4) {
-        options.add(calcAnswer + Math.floor(Math.random() * 10) - 5);
+        const wrong = calcAnswer + (Math.floor(Math.random() * 9) - 4);
+        if (wrong !== calcAnswer) options.add(wrong);
       }
       const shuffled = [...options].sort(() => Math.random() - 0.5);
 
@@ -348,14 +357,14 @@
         const btn = document.createElement('button');
         btn.className = 'calc-btn';
         btn.textContent = opt;
-        btn.onclick = () => answerCalc(opt, btn);
+        btn.onclick = () => answerCalc(opt);
         container.appendChild(btn);
       });
 
       calcCurrent++;
     }
 
-    function answerCalc(val, btn) {
+    function answerCalc(val) {
       document.querySelectorAll('.calc-btn').forEach(b => b.onclick = null);
       if (val === calcAnswer) {
         calcCorrect++;
@@ -363,29 +372,42 @@
       } else {
         document.getElementById('calcFeedback').textContent = `❌ 不正解（正解: ${calcAnswer}）`;
       }
+      // 進捗バーを更新
+      const pct = (calcCurrent / calcTotal) * 100;
+      document.getElementById('calcProgress').style.width = pct + '%';
       setTimeout(nextCalc, 800);
     }
 
     // ===== 反応速度テスト =====
-    let reactionTimes = [];
-    let reactionCount = 3;
-    let reactionStart = 0;
-    let reactionTimer = null;
-    let reactionState = 'idle';
+    let reactionTimes  = [];
+    let reactionCount  = 3;
+    let reactionStart  = 0;
+    let reactionTimer  = null;
+    let reactionState  = 'idle';
 
     function setupReaction() {
       reactionTimes = [];
       reactionState = 'idle';
-      document.getElementById('reactionArea').className = 'reaction-area';
+      document.getElementById('reactionArea').className   = 'reaction-area';
       document.getElementById('reactionArea').textContent = 'タップしてスタート';
       document.getElementById('reactionTime').textContent = '';
-      document.getElementById('reactionStatus').textContent = `残り ${reactionCount} 回`;
+      document.getElementById('reactionStatus').textContent = '';
+      document.getElementById('reactionProgress').style.width = '0%';
+      updateReactionStep();
+    }
+
+    function updateReactionStep() {
+      const done = reactionTimes.length;
+      document.getElementById('reactionStep').textContent =
+        `${done + 1}回目 / ${reactionCount}回`;
+      const pct = (done / reactionCount) * 100;
+      document.getElementById('reactionProgress').style.width = pct + '%';
     }
 
     function reactionTap() {
       if (reactionState === 'idle') {
         reactionState = 'waiting';
-        document.getElementById('reactionArea').className = 'reaction-area ready';
+        document.getElementById('reactionArea').className   = 'reaction-area ready';
         document.getElementById('reactionArea').textContent = '待て...';
         document.getElementById('reactionTime').textContent = '';
 
@@ -393,32 +415,38 @@
         reactionTimer = setTimeout(() => {
           reactionState = 'go';
           reactionStart = Date.now();
-          document.getElementById('reactionArea').className = 'reaction-area go';
+          document.getElementById('reactionArea').className   = 'reaction-area go';
           document.getElementById('reactionArea').textContent = '今！';
         }, delay);
 
       } else if (reactionState === 'waiting') {
         clearTimeout(reactionTimer);
         reactionState = 'idle';
-        document.getElementById('reactionArea').className = 'reaction-area';
+        document.getElementById('reactionArea').className   = 'reaction-area';
         document.getElementById('reactionArea').textContent = 'フライング！もう一度';
 
       } else if (reactionState === 'go') {
         const elapsed = Date.now() - reactionStart;
         reactionTimes.push(elapsed);
+
+        // 進捗更新
+        const pct = (reactionTimes.length / reactionCount) * 100;
+        document.getElementById('reactionProgress').style.width = pct + '%';
         document.getElementById('reactionTime').textContent = elapsed + 'ms';
 
         const remaining = reactionCount - reactionTimes.length;
         if (remaining > 0) {
-          document.getElementById('reactionStatus').textContent = `残り ${remaining} 回`;
+          document.getElementById('reactionStep').textContent =
+            `${reactionTimes.length + 1}回目 / ${reactionCount}回`;
           reactionState = 'idle';
-          document.getElementById('reactionArea').className = 'reaction-area';
+          document.getElementById('reactionArea').className   = 'reaction-area';
           document.getElementById('reactionArea').textContent = 'タップしてスタート';
         } else {
-          const avg = reactionTimes.reduce((a,b) => a+b, 0) / reactionTimes.length;
-          // 200ms以下→満点、500ms以上→0点
-          scores.reaction = Math.max(0, Math.min(1, (500 - avg) / 300));
+          const avg = reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length;
+          // 150ms→100点、600ms→0点 で線形補間
+          scores.reaction = Math.max(0, Math.min(1, (600 - avg) / 450));
           document.getElementById('reactionStatus').textContent = `平均: ${Math.round(avg)}ms`;
+          document.getElementById('reactionArea').onclick = null;
           setTimeout(() => {
             showScreen('screen-balance');
           }, 1000);
@@ -427,11 +455,11 @@
     }
 
     // ===== バランステスト =====
-    let balanceTimer  = null;
-    let balanceTime   = 5;
-    let balanceScore  = 0;
-    let balanceSamples = 0;
-    let balanceActive = false;
+    let balanceInterval = null;
+    let balanceTime     = 5;
+    let balanceScore    = 0;
+    let balanceSamples  = 0;
+    let balanceActive   = false;
 
     function startBalance() {
       if (typeof DeviceOrientationEvent !== 'undefined' &&
@@ -450,19 +478,24 @@
       balanceScore   = 0;
       balanceSamples = 0;
       balanceActive  = true;
-      document.getElementById('balanceTimer').textContent = balanceTime;
-      document.getElementById('balanceStatus').textContent = '水平を保ってください！';
+      document.getElementById('balanceTimer').textContent    = balanceTime;
+      document.getElementById('balanceStatus').textContent   = '水平を保ってください！';
+      document.getElementById('balanceProgress').style.width = '0%';
 
-      balanceTimer = setInterval(() => {
+      balanceInterval = setInterval(() => {
         balanceTime--;
         document.getElementById('balanceTimer').textContent = balanceTime;
+        const pct = ((5 - balanceTime) / 5) * 100;
+        document.getElementById('balanceProgress').style.width = pct + '%';
+
         if (balanceTime <= 0) {
-          clearInterval(balanceTimer);
+          clearInterval(balanceInterval);
           balanceActive = false;
           scores.balance = balanceSamples > 0
             ? Math.max(0, balanceScore / balanceSamples)
             : 0;
           window.removeEventListener('deviceorientation', balanceHandler);
+          document.getElementById('balanceProgress').style.width = '100%';
           setTimeout(showResult, 500);
         }
       }, 1000);
@@ -473,20 +506,19 @@
     function balanceHandler(e) {
       if (!balanceActive) return;
       const gamma = e.gamma || 0;
-            const beta  = (e.beta  || 0); // 補正なし
+      const beta  = e.beta  || 0;
 
-      // ボール位置
       const maxOffset = 85;
       const x = Math.max(-maxOffset, Math.min(maxOffset, gamma * 3));
       const y = Math.max(-maxOffset, Math.min(maxOffset, beta  * 3));
+
       const ball = document.getElementById('balanceBall');
       ball.style.left = (110 + x) + 'px';
       ball.style.top  = (110 + y) + 'px';
 
-      // スコア計算（中心からの距離）
-      const dist = Math.sqrt(x*x + y*y);
+      const dist   = Math.sqrt(x * x + y * y);
       const sample = Math.max(0, 1 - dist / maxOffset);
-      balanceScore += sample;
+      balanceScore  += sample;
       balanceSamples++;
     }
 
@@ -497,17 +529,16 @@
       const total = (scores.calc + scores.reaction + scores.balance) / 3;
       const pct   = Math.round(total * 100);
 
-      // キャラクター定義
       const levels = [
-        { min: 80, char: '😎', level: 'しらふ',     color: '#2ecc71',
+        { min: 80, char: '😎', level: 'しらふ',       color: '#2ecc71',
           desc: '素面です！まだまだ飲めます？\nテスト結果は優秀でした！' },
-        { min: 60, char: '😊', level: 'ほろ酔い',   color: '#f9ca24',
+        { min: 60, char: '😊', level: 'ほろ酔い',     color: '#f9ca24',
           desc: 'いい感じに酔っています🍺\nまだ余裕がありそうですね！' },
         { min: 40, char: '🥴', level: 'そこそこ酔い', color: '#f0932b',
           desc: 'だいぶ酔ってきました😵\nそろそろ水を飲みましょう！' },
-        { min: 20, char: '😵', level: 'かなり酔い',  color: '#e74c3c',
+        { min: 20, char: '😵', level: 'かなり酔い',   color: '#e74c3c',
           desc: '相当酔っています！🚨\nこれ以上の飲酒は控えましょう！' },
-        { min: 0,  char: '🤮', level: '泥酔',       color: '#8e44ad',
+        { min: 0,  char: '🤮', level: '泥酔',         color: '#8e44ad',
           desc: '限界突破です！！🆘\n今すぐ飲むのをやめてください！' },
       ];
 
@@ -518,10 +549,9 @@
       document.getElementById('resultLevel').style.color = result.color;
       document.getElementById('resultDesc').textContent  = result.desc;
       document.getElementById('resultScore').textContent =
-        `酔い度スコア: ${100 - pct}% ／ ` +
-        `計算${Math.round(scores.calc*100)}% ／ ` +
-        `反応${Math.round(scores.reaction*100)}% ／ ` +
-        `バランス${Math.round(scores.balance*100)}%`;
+        `計算: ${Math.round(scores.calc * 100)}点　` +
+        `反応: ${Math.round(scores.reaction * 100)}点　` +
+        `バランス: ${Math.round(scores.balance * 100)}点`;
 
       const fill = document.getElementById('resultMeterFill');
       fill.style.background = result.color;
