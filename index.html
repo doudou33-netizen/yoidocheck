@@ -473,7 +473,7 @@
     function balanceHandler(e) {
       if (!balanceActive) return;
       const gamma = e.gamma || 0;
-      const beta  = (e.beta  || 0) - 90; // 持った状態で0に補正
+            const beta  = (e.beta  || 0); // 補正なし
 
       // ボール位置
       const maxOffset = 85;
